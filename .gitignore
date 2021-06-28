@@ -13,3 +13,16 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# Misc
+.DS_Store
+*.mp4
+
+# Pit executable
+pit
+log.txt
+
+# Test and Work folders
+work
+test
+testfiles
