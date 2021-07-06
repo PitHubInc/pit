@@ -99,7 +99,7 @@ Example Usage:
 }
 
 func version() {
-	fmt.Printf("Version: %s\n", pitVersion)
+	fmt.Printf("Version: %s\n", productVersion)
 }
 
 func status() {

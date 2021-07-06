@@ -12,14 +12,16 @@ import (
 
 func pitTest() {
 	log.Println("test()")
-	log.Printf("version: %s\n", pitVersion)
+	log.Printf("version: %s\n", productVersion)
 	log.Println(fmt.Sprintf("os.Args=%s", os.Args))
 	log.Println(fmt.Sprintf("containerName=%s", getContainerName()))
 
-	fmt.Println("Test Executing: setTestEnv()")
+	// fmt.Println("Test Executing: setTestEnv()")
 	// setTestEnv()
 
-	testCase00()
+	// testCase00()
+
+	version()
 }
 
 func testCase00() {

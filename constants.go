@@ -1,9 +1,6 @@
 package main
 
-// The pitVersion number is intended to be updated with each build that is released. The numbering
-// should be consistant with a major, minor, trivial changes terminology. Breaking changes should
-// only be released with a major version update.
-const pitVersion = "0.1.4"
+
 
 // Bugbug: Why is the following line included?
 // const pitProductionContainerName = "nvm4zqwm"
