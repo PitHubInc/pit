@@ -1,4 +1,3 @@
 import os
-command = "cp ./pit /usr/local/bin/pit"
-print('Executing: '+command)
-os.system(command)
+print("cp ./pit /usr/local/bin/pit-test")
+os.system("cp ./pit /usr/local/bin/pit-test")

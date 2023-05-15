@@ -51,7 +51,7 @@ func collectionInitialize() {
 }
 
 func getRemoteNameAndURL(props collectionProperties, localFileName string) (string, string) {
-	remoteFileName := props.NameRemote + pitSeperator + strings.ToLower(localFileName)
+	remoteFileName := props.NameRemote + pitSeparator + strings.ToLower(localFileName)
 	remoteFileURL := fmt.Sprintf("https://pithub.blob.core.windows.net/%s/%s", getContainerName(), remoteFileName)
 	return remoteFileName, remoteFileURL
 }
@@ -286,7 +286,7 @@ func collectionPush() {
 		updatedFile := false
 		uploadFile := false
 
-		remoteFileName := props.NameRemote + pitSeperator + strings.ToLower(doc.NameLocal)
+		remoteFileName := props.NameRemote + pitSeparator + strings.ToLower(doc.NameLocal)
 		remoteMDd5, remoteETag, err := getRemoteFileMD5AndETag(remoteFileName)
 		if err != nil {
 			if strings.Contains(err.Error(), "ServiceCode=BlobNotFound") {
@@ -373,7 +373,7 @@ func collectionPushBK1() {
 	// Todo: Refactor code so that we do not get ALL of the remote files to see if a given file exists and is current.
 	documentNames := getDocumentNames(getContainerName())
 	for docIndex, doc := range props.Documents {
-		remoteFileName := props.NameRemote + pitSeperator + strings.ToLower(doc.NameLocal)
+		remoteFileName := props.NameRemote + pitSeparator + strings.ToLower(doc.NameLocal)
 		remoteFileExists := false
 		for _, documentName := range documentNames {
 			// Todo: consider optimizing by breaking out of loop when file is found.

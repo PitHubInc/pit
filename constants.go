@@ -2,7 +2,7 @@ package main
 
 
 
-// Bugbug: Why is the following line included?
+// BugBug: Why is the following line included?
 // const pitProductionContainerName = "nvm4zqwm"
 
 // Warning: Be VERY careful about changing the constants, types, or even the names of the variable 
@@ -11,7 +11,7 @@ package main
 
 const pitFileName = "pit.json"
 const pitMD5tag = "pitmd5"
-const pitSeperator = "-"
+const pitSeparator = "-"
 const userAppFolderName = ".pit"
 const userAppLogFileName = "log.txt"
 const userAppAccountFileName = "account.json"
