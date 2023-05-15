@@ -1,7 +1,5 @@
 package main
 
-
-
 // BugBug: Why is the following line included?
 // const pitProductionContainerName = "nvm4zqwm"
 
@@ -11,7 +9,7 @@ package main
 
 const pitFileName = "pit.json"
 const pitMD5tag = "pitmd5"
-const pitSeperator = "-"
+const pitSeparator = "-"
 const userAppFolderName = ".pit"
 const userAppLogFileName = "log.txt"
 const userAppAccountFileName = "account.json"
