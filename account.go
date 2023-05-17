@@ -101,7 +101,7 @@ func createPublicContainer(containerName string) {
 func deleteContainer(containerName string) error {
 	log.Println(fmt.Sprintf("deleteContainer(containerName=%s)", containerName))
 	if !strings.Contains(containerName, "testtest") {
-		log.Println(fmt.Sprintf("Fatal Error: Attempting to delete a non-test Containter named %s", containerName))
+		log.Println(fmt.Sprintf("Fatal Error: Attempting to delete a non-test Container named %s", containerName))
 		return errors.New("The deleteContainer function only deletes containers with \"testtest\" in the name")
 	}
 

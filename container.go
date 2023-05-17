@@ -2,7 +2,8 @@
 	Container represents a place where documents can be stored. It is initially modeled after a MS Azure Blob Storage
 	Container.
 
-	Additional references: https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction
+	Additional references: 
+	https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction
 	https://www.eventslooped.com/posts/use-golang-to-upload-files-to-azure-blob-storage/
 	https://github.com/inemtsev/go_blob_uploader/blob/master/main.go
 	https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-go
