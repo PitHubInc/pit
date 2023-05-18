@@ -1,13 +1,26 @@
-# pit
+# Pit Video Sharing
 
 # Build
 ## go build -o pit
+## OR
+## python ./scripts/build.py
 
-# View log
-## bash ./scripts/viewlog.sh
+# Execute
+## ./pit
+## OR
+## python ./scripts/run.py
+##
+## Note that if you have pit installed on your system already and you type "pit" you will execute the globally 
+## installed version of pit and not the local copy that was presumably just compiled.
 
-# Deploy local computer
-## deploy app ./pit
+# View log:
+## python ./scripts/log.py
+
+# Update build number:
+## python ./script/update-build-number.py
+
+# Deploy pit to local computer
+## python ./scripts/deploy.py
 
 # Dependency
 ## go get -u github.com/Azure/azure-storage-blob-go/azblob

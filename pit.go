@@ -76,7 +76,7 @@ func introduction() {
 	fmt.Println(
 		`
 The Pit application provides simple functionality that allows 
-you to share your documents and videos online. 
+you to share your videos online. 
 
 Common Pit commands init:
     init      Create a Pit collection
@@ -99,7 +99,9 @@ Example Usage:
 }
 
 func version() {
-	fmt.Printf("version/build: %s\n", productVersion)
+	v := fmt.Sprintf("version/build: %s", productVersion)
+	fmt.Printf(v+"\n")
+	log.Println(v+" reported")
 }
 
 func status() {
