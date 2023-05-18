@@ -4,6 +4,8 @@
 		"pithub",
 		"pitmd",
 		"serr",
+		"setproduction",
+		"settest",
 		"testtest",
 		"viewlog",
 		"wordprocessingml",
