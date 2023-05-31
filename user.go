@@ -1,7 +1,6 @@
-/*
-	User account encapsulates user account information including user Container information. User account information
-	is not the same as storage account information. 
-*/
+// User encapsulates user account information including Container and basic Collection information. User account 
+// information is NOT the same as storage account information. The associated JSON file is storied in the 
+// %HOME%/.pit/account.json.
 
 package main
 import (
@@ -22,6 +21,7 @@ type accountProperties struct {
 	Description    string    // Value:   accountFileDescription
 	Email          string    // Example: "epogue@epogue.com"
 	Containers     []containerProperties
+	Collections    []basicCollectionProperties
 }
 
 type containerProperties struct {
@@ -33,7 +33,13 @@ type containerProperties struct {
 	Default        string    // Values:  "yes" or "no"
 }
 
-const accountFileDescription = "Account and Container Properties"
+type basicCollectionProperties struct {
+	NameLocal      string
+	NameRemote     string
+}
+
+// Todo: Consider removing this field from accountProperties
+const accountFileDescription = "User Account Information including Container and basic Collection information"
 // End Warning
 
 // User account methods.
@@ -165,4 +171,9 @@ func (ap *accountProperties) defaultAccountProperties(environment string) {
 	if err != nil {
 		log.Println("Fatal Error: Unable to write account properties")
 	}
+}
+
+func (ap *accountProperties) addBasicContainerInfo(NameLocal string, NameRemote string) error {
+	log.Println("func (ap *accountProperties) addBasicContainerInfo(NameLocal string, NameRemote string) {")
+	return nil
 }

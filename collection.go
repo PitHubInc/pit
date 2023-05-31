@@ -47,6 +47,13 @@ func collectionInitialize() {
 
 		err := collectionWrite(props)
 		check(err)
+
+		//userAccount := new(accountProperties)
+		//errUserAccount := userAccount.addBasicContainerInfo("one", "two")
+		//if errUserAccount != nil {
+		//	log.Println("Fatal Error: Unable to call userAccount.addBasicContainerInfo(...)")
+		//	return
+		//}	
 	}
 }
 
