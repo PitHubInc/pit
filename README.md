@@ -28,3 +28,7 @@
 # Additional information:
 ## More Go build information: https://www.digitalocean.com/community/tutorials/how-to-build-and-install-go-programs
 ## More Go install information: https://golang.org/doc/code.html 
+
+# If we need to reinstall MacOS developer tools
+sudo rm -rf /Library/Developer/CommandLineTools
+sudo xcode-select --install

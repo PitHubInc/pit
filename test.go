@@ -22,6 +22,7 @@ func pitTest() {
 	// testCase00()
 
 	version()
+	collectionClone()
 }
 
 func testCase00() {

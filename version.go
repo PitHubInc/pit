@@ -4,4 +4,4 @@ package main
 // consistent with a major, minor, trivial changes terminology. Breaking changes should only be released with a major 
 // version update.
 
-const productVersion = "1.2.34"
+const productVersion = "1.2.36"

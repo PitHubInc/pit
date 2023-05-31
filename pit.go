@@ -47,6 +47,8 @@ func main() {
 		test()
 	} else if (secondArg == "setproduction") || (secondArg == "-setproduction") || (secondArg == "-sp") {
 		setProductionEnv()
+	} else if (secondArg == "clone") {
+		collectionClone()
 	} else if (secondArg == "settest") || (secondArg == "-settest") || (secondArg == "-st") {
 		setTestEnv()
 	} else {

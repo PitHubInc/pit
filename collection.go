@@ -50,7 +50,7 @@ func collectionInitialize() {
 	}
 }
 
-func getRemoteNameAndURL(props collectionProperties, localFileName string) (string, string) {
+func getRemoteFileNameAndURL(props collectionProperties, localFileName string) (string, string) {
 	remoteFileName := props.NameRemote + pitSeparator + strings.ToLower(localFileName)
 	remoteFileURL := fmt.Sprintf("https://pithub.blob.core.windows.net/%s/%s", getContainerName(), remoteFileName)
 	return remoteFileName, remoteFileURL
@@ -72,7 +72,7 @@ func verifyCollectionDocument(props collectionProperties, doc documentProperties
 	}
 
 	// Verify remote document.
-	remoteFileName, remoteFileURL := getRemoteNameAndURL(props, doc.NameLocal)
+	remoteFileName, remoteFileURL := getRemoteFileNameAndURL(props, doc.NameLocal)
 	remoteFileMD5, _, err := getRemoteFileMD5AndETag(remoteFileName)
 	if err != nil {
 		// Remote file not found likely because it has not been pushed. 
@@ -124,7 +124,7 @@ func verifyCollectionDocuments(props collectionProperties) {
 
 func collectionStatus() {
 	if !collectionExists() {
-		fmt.Printf("No collection initialzed\n")
+		fmt.Printf("No collection initialized\n")
 	} else {
 		props, err := collectionRead()
 		check(err)
@@ -162,7 +162,6 @@ func collectionWrite(props collectionProperties) error {
 
 	return err
 }
-
 
 func collectionAddOrUpdate(filePathAndName string) error {
 	if !fileExists(filePathAndName) {
@@ -308,7 +307,7 @@ func collectionPush() {
 			}
 		}
 
-		_, remoteFileURL := getRemoteNameAndURL(props, doc.NameLocal)
+		_, remoteFileURL := getRemoteFileNameAndURL(props, doc.NameLocal)
 		if !newFile && !updatedFile {
 			// The Document exists locally and remotely and the files are the same (matching eTags and MD5s). 
 			fmt.Printf("%s verified and shared as %s\n", padRight(doc.NameLocal, " ", 20), remoteFileURL)
@@ -340,7 +339,7 @@ func collectionPush() {
 			
 			newRemoteMD5, newRemoteETag, err := getRemoteFileMD5AndETag(remoteFileName)
 			if err != nil {
-				fmt.Printf("%s Error: unable to abtain MD5 or ETag for %s\n", padRight(doc.NameLocal, " ", 20), remoteFileURL)
+				fmt.Printf("%s Error: unable to obtain MD5 or ETag for %s\n", padRight(doc.NameLocal, " ", 20), remoteFileURL)
 				break
 			}
 

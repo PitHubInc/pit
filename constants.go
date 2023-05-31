@@ -1,7 +1,5 @@
 package main
 
-
-
 // BugBug: Why is the following line included?
 // const pitProductionContainerName = "nvm4zqwm"
 

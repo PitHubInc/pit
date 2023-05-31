@@ -70,6 +70,14 @@ func ensureDirectory(dirName string) bool {
 	return false
 }
 
+func fileOrDirectoryExists(fileOrDirectoryName string) bool {
+	info, err := os.Stat(fileOrDirectoryName)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return info.IsDir()
+}
+
 func fileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
