@@ -187,3 +187,18 @@ func (ap *accountProperties) addBasicCollectionInfo(nameLocal string, nameRemote
 	ap.Collections = append(ap.Collections, basicCollection)
 	ap.write()
 }
+
+func (ap *accountProperties) getRemoteName(nameLocalIn string) (string, error) {
+	err := ap.read()
+	check(err)
+
+	collections := ap.Collections
+	for _, col := range collections {
+		if col.NameLocal == nameLocalIn {
+			return col.NameRemote, nil
+		}
+		fmt.Printf("%s\n", col)
+	}
+
+	return "", nil
+}

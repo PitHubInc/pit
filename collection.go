@@ -31,6 +31,7 @@ func collectionExists() bool {
 	return true
 }
 
+// Todo: Initialize Pit collection as .pit hidden folder. 
 func collectionInitialize() {
 	if collectionExists() {
 		fmt.Println("Collection already initialized")
@@ -39,7 +40,6 @@ func collectionInitialize() {
 
 		props.NameLocal = collectionGetInitialLocalName()
 		props.NameRemote = collectionNewRemoteName()
-		fmt.Printf("Initializing \"%s\" as \"%s\"\n", props.NameLocal, props.NameRemote)
 
 		t := time.Now()
 		props.Created = t.Format(time.RFC3339)
@@ -50,6 +50,9 @@ func collectionInitialize() {
 
 		userAccount := new(accountProperties)
 		userAccount.addBasicCollectionInfo(props.NameLocal, props.NameRemote)
+
+		// Todo: Consider printing full path to be consistent with "git init".
+		fmt.Printf("Initialed empty Pit repository in %s\n", props.NameLocal)
 	}
 }
 

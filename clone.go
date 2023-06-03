@@ -7,13 +7,26 @@ import (
 	"os"
 )
 
-const collectionRemoteName = "tvml18zq"
-const collectionJSONFileName = collectionRemoteName+".json"
-const remoteCollectionURL = "https://pithub.blob.core.windows.net/nvm4zqwm/"+collectionJSONFileName
+func collectionClone(localName string) {
+	userAccount := new(accountProperties)
+	remoteName, _ := userAccount.getRemoteName(localName)
+	collectionJSONFileName := remoteName+".json"
 
-func collectionClone() {
+	err := os.Mkdir(localName, os.ModePerm)
+	if err == nil {
+		err = os.Chdir(localName)
+	}
+	
+	if err != nil {
+		panic(err)
+	}
+	
+
+	// Todo: Update so that path is not hard coded.
+	remoteCollectionURL := "https://pithub.blob.core.windows.net/nvm4zqwm/"+collectionJSONFileName
+
 	// Todo: Make download file name temp.
-	err := DownloadFile(collectionJSONFileName, remoteCollectionURL)
+	err = DownloadFile(collectionJSONFileName, remoteCollectionURL)
 	// Todo: Implement better error handling. 
 	if err != nil {
 		panic(err)
@@ -26,9 +39,6 @@ func collectionClone() {
 	props, err := collectionRead()
 	check(err)
 	
-	// Todo: Remove following line. 
-	collectionPropsPrintJSON(props)
-
 	// Download all files in the collection.
 	for _, doc := range props.Documents {
 		_, remoteFileURL := getRemoteFileNameAndURL(props, doc.NameLocal)
@@ -40,15 +50,9 @@ func collectionClone() {
 			panic(err)
 		}
 	}
-
 }
 
 // Code initially taken from "https://golangcode.com/download-a-file-with-progress/"
-
-/* func downloadFileFromURLWithProgress() {
-	directoryExists := fileExists("")
-}
-*/
 
 // WriteCounter counts the number of bytes written to it. It implements to the io.Writer interface
 // and we can pass this into io.TeeReader() which will report progress on each write cycle.

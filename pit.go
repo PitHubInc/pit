@@ -48,7 +48,12 @@ func main() {
 	} else if (secondArg == "setproduction") || (secondArg == "-setproduction") || (secondArg == "-sp") {
 		setProductionEnv()
 	} else if (secondArg == "clone") {
-		collectionClone()
+		if len(os.Args) < 3 {
+			log.Println("Error: '-clone' must include a [[collection-name]] argument")
+			os.Exit(0)
+		} else {
+			collectionClone(os.Args[2])
+		}
 	} else if (secondArg == "settest") || (secondArg == "-settest") || (secondArg == "-st") {
 		setTestEnv()
 	} else {

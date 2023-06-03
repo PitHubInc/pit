@@ -70,6 +70,10 @@ func ensureDirectory(dirName string) bool {
 	return false
 }
 
+func mkDir(dirName string) error {
+	return os.Mkdir(dirName, os.ModePerm)
+}
+
 func fileOrDirectoryExists(fileOrDirectoryName string) bool {
 	info, err := os.Stat(fileOrDirectoryName)
 	if os.IsNotExist(err) {
