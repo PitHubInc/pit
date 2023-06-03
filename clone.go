@@ -44,7 +44,6 @@ type WriteCounter struct {
 	Total uint64
 }
 
-var downloadFileName string = ""
 func (wc *WriteCounter) Write(p []byte) (int, error) {
 	n := len(p)
 	wc.Total += uint64(n)
@@ -52,6 +51,7 @@ func (wc *WriteCounter) Write(p []byte) (int, error) {
 	return n, nil
 }
 
+var downloadFileName string = ""
 func (wc WriteCounter) PrintProgress() {
 	// Return again and print current status of download
 	fmt.Printf("\r%s...%d downloaded (kb)", downloadFileName, wc.Total/1000)
@@ -83,11 +83,13 @@ func DownloadFile(filepath string, url string) error {
 	}
 	out.Close()
 
-	// Extra spaces are to make sure that everything written previously to the line is deleted.
+	// Trailing spaces are to overwrite previously written text.
 	fmt.Printf("\r%s...complete                   \n", downloadFileName)
 
 	err = os.Rename(filepath+".tmp", filepath)
-	check(err)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
