@@ -22,7 +22,10 @@ func pitTest() {
 	// testCase00()
 
 	version()
-	collectionClone()
+	initialize()
+	add("hello-world.mp4")
+	push()
+	// collectionClone()
 }
 
 func testCase00() {

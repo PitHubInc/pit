@@ -1,5 +1,5 @@
 /*
-	Collection represents a logical grouping of Documents. Many collections can be stored in a Container.
+Collection represents a logical grouping of Documents. Many collections can be stored in a Container.
 */
 package main
 
@@ -48,12 +48,8 @@ func collectionInitialize() {
 		err := collectionWrite(props)
 		check(err)
 
-		//userAccount := new(accountProperties)
-		//errUserAccount := userAccount.addBasicContainerInfo("one", "two")
-		//if errUserAccount != nil {
-		//	log.Println("Fatal Error: Unable to call userAccount.addBasicContainerInfo(...)")
-		//	return
-		//}	
+		userAccount := new(accountProperties)
+		userAccount.addBasicCollectionInfo(props.NameLocal, props.NameRemote)
 	}
 }
 
@@ -72,8 +68,8 @@ func verifyCollectionDocument(props collectionProperties, doc documentProperties
 	// Verify local document has not been modified since is was last added.
 	localFileMD5 := md5File(doc.NameLocal)
 	if doc.MD5 != localFileMD5 {
-		// Document has been updated locally but updated version has not been added. 
-		fmt.Printf("%s updated but version has not been added with \"pit add %s\"\n", 
+		// Document has been updated locally but updated version has not been added.
+		fmt.Printf("%s updated but version has not been added with \"pit add %s\"\n",
 			padRight(doc.NameLocal, " ", 20), doc.NameLocal)
 		return nil
 	}
@@ -82,7 +78,7 @@ func verifyCollectionDocument(props collectionProperties, doc documentProperties
 	remoteFileName, remoteFileURL := getRemoteFileNameAndURL(props, doc.NameLocal)
 	remoteFileMD5, _, err := getRemoteFileMD5AndETag(remoteFileName)
 	if err != nil {
-		// Remote file not found likely because it has not been pushed. 
+		// Remote file not found likely because it has not been pushed.
 		fmt.Printf("%s added but not published with \"pit push\"\n", padRight(doc.NameLocal, " ", 20))
 		return nil
 	}
@@ -125,7 +121,7 @@ func verifyCollectionDocuments(props collectionProperties) {
 		err := verifyCollectionDocument(props, doc)
 		if err != nil {
 			fmt.Printf("%s\n", err)
-		} 
+		}
 	}
 }
 
@@ -191,7 +187,7 @@ func collectionAddOrUpdate(filePathAndName string) error {
 				err = collectionUpdate(filePathAndName)
 				return err
 			}
-		} 
+		}
 	}
 
 	// File was not in Collection so it needs to be added.
@@ -209,7 +205,7 @@ func collectionUpdate(filePathAndName string) error {
 			currentMD5 := md5File(filePathAndName)
 			originalMD5 := props.Documents[i].MD5
 
-			if (currentMD5 != originalMD5) {
+			if currentMD5 != originalMD5 {
 				props.Documents[i].PreviousMD5s = append(props.Documents[i].PreviousMD5s, originalMD5)
 				props.Documents[i].MD5 = currentMD5
 			}
@@ -235,7 +231,7 @@ func collectionAdd(filePathAndName string) error {
 		if doc.NameLocal == element.NameLocal {
 			if doc.MD5 == element.MD5 {
 				fmt.Printf("%s is already in the Collection and up to date\n", padRight(doc.NameLocal, " ", 20))
-				return nil			
+				return nil
 			} else {
 				return collectionUpdate(filePathAndName)
 			}
@@ -278,15 +274,15 @@ func collectionDeleteLocalIfExist() {
 func collectionPush() {
 	props, err := collectionRead()
 
-	if (err != nil) { 
+	if err != nil {
 		fmt.Printf("Error: unable to read collection\n%s", err)
 		return
 	}
 
-	// If the local Collection json file  is updated, we will need to upload it at the end of the function. 
+	// If the local Collection json file  is updated, we will need to upload it at the end of the function.
 	collectFileModified := false
 
-	// Check each Document in the Collection to see if it need to be uploaded. 
+	// Check each Document in the Collection to see if it need to be uploaded.
 	for index, doc := range props.Documents {
 		newFile := false
 		updatedFile := false
@@ -308,7 +304,7 @@ func collectionPush() {
 		}
 
 		if !newFile {
-			if doc.ETag != remoteETag || doc.MD5 != remoteMDd5  {
+			if doc.ETag != remoteETag || doc.MD5 != remoteMDd5 {
 				// Document exists locally and remotely, but has been updated locally.
 				updatedFile = true
 			}
@@ -316,14 +312,14 @@ func collectionPush() {
 
 		_, remoteFileURL := getRemoteFileNameAndURL(props, doc.NameLocal)
 		if !newFile && !updatedFile {
-			// The Document exists locally and remotely and the files are the same (matching eTags and MD5s). 
+			// The Document exists locally and remotely and the files are the same (matching eTags and MD5s).
 			fmt.Printf("%s verified and shared as %s\n", padRight(doc.NameLocal, " ", 20), remoteFileURL)
-		} 
+		}
 
 		if updatedFile {
-			// Check if the remote file was a previously uploaded file from this computer. 
+			// Check if the remote file was a previously uploaded file from this computer.
 			for _, previousLocalMD5 := range props.Documents[index].PreviousMD5s {
-				if remoteMDd5 == previousLocalMD5  {
+				if remoteMDd5 == previousLocalMD5 {
 					// One of the previous MD5s match so it should be safe to upload the updated file.
 					uploadFile = true
 					break
@@ -331,8 +327,8 @@ func collectionPush() {
 			}
 
 			if !uploadFile {
-				// The remote Document has an MD5 that is not recognized in the local Collection. Therefore, the Document 
-				// was likely updated from a different computer and we risk overwriting changes. 
+				// The remote Document has an MD5 that is not recognized in the local Collection. Therefore, the Document
+				// was likely updated from a different computer and we risk overwriting changes.
 				fmt.Printf("%s Error: aborting upload due to version conflict\n", padRight(doc.NameLocal, " ", 20))
 				break
 			}
@@ -343,7 +339,7 @@ func collectionPush() {
 
 			uploadDocument(getContainerName(), doc.NameLocal, remoteFileName)
 			setDocumentMetadataMD5(getContainerName(), remoteFileName, doc.MD5)
-			
+
 			newRemoteMD5, newRemoteETag, err := getRemoteFileMD5AndETag(remoteFileName)
 			if err != nil {
 				fmt.Printf("%s Error: unable to obtain MD5 or ETag for %s\n", padRight(doc.NameLocal, " ", 20), remoteFileURL)
@@ -359,7 +355,7 @@ func collectionPush() {
 	}
 
 	if collectFileModified {
-		// Write the local Collection if was modified (e.g. ETag). 
+		// Write the local Collection if was modified (e.g. ETag).
 		err = collectionWrite(props)
 		if err != nil {
 			fmt.Printf("Error: unable to updated Collection\n")
@@ -404,7 +400,7 @@ func collectionPushBK1() {
 		}
 	}
 
-	// Write the local collection as it may have been modified above (e.g. ETag). 
+	// Write the local collection as it may have been modified above (e.g. ETag).
 	err = collectionWrite(props)
 	check(err)
 

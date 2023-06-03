@@ -1,45 +1,48 @@
-// User encapsulates user account information including Container and basic Collection information. User account 
-// information is NOT the same as storage account information. The associated JSON file is storied in the 
+// User encapsulates user account information including Container and basic Collection information. User account
+// information is NOT the same as storage account information. The associated JSON file is storied in the
 // %HOME%/.pit/account.json.
 
 package main
+
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/user"
-	"encoding/json"
-	"io/ioutil"
 )
 
-// Warning: Be VERY careful about changing the constants, types, or even the names of the variables directly below as 
-// any changes will likely be a breaking change for existing versions. Note that the variable names are utilized by Go 
-// in the creation of JSON files and that the Go json.Marshal() function only exports fields that start with an upper 
-// case name. 
+// Warning: Be VERY careful about changing the constants, types, or even the names of the variables directly below as
+// any changes will likely be a breaking change for existing versions. Note that the variable names are utilized by Go
+// in the creation of JSON files and that the Go json.Marshal() function only exports fields that start with an upper
+// case name.
 type accountProperties struct {
-	Description    string    // Value:   accountFileDescription
-	Email          string    // Example: "epogue@epogue.com"
-	Containers     []containerProperties
-	Collections    []basicCollectionProperties
+	Description string // Value:   accountFileDescription
+	Email       string // Example: "epogue@epogue.com"
+	Containers  []containerProperties
+	Collections []basicCollectionProperties
 }
 
 type containerProperties struct {
-	Type           string    // Example: "azure"
-	Account        string    // Example: "pithub"
-	Key            string    // Example: "dGs3xAXFgM7bwJN9GtU0HaahFzqa77rWU/TWl8Oryqon93V28sexQ80V8V6PNedgEMhVu3C2eEBGcWUtFDcEUA=="
-	Name           string    // Example: "nvm4zqwmtesttest"
-	URL            string    // Example: "https://pithub.blob.core.windows.net/nvm4zqwmtesttest/"
-	Default        string    // Values:  "yes" or "no"
+	Type    string // Example: "azure"
+	Account string // Example: "pithub"
+	Key     string // Example: "dGs3xAXFgM7bwJN9GtU0HaahFzqa77rWU/TWl8Oryqon93V28sexQ80V8V6PNedgEMhVu3C2eEBGcWUtFDcEUA=="
+	Name    string // Example: "nvm4zqwmtesttest"
+	URL     string // Example: "https://pithub.blob.core.windows.net/nvm4zqwmtesttest/"
+	Default string // Values:  "yes" or "no"
 }
 
 type basicCollectionProperties struct {
-	NameLocal      string
-	NameRemote     string
+	NameLocal  string
+	NameRemote string
 }
 
 // Todo: Consider removing this field from accountProperties
-const accountFileDescription = "User Account Information including Container and basic Collection information"
+// const accountFileDescription = "User Account Information including Container and basic Collection information"
+const accountFileDescription = "Account and Container Properties"
+
 // End Warning
 
 // User account methods.
@@ -86,9 +89,9 @@ func (ap *accountProperties) write() error {
 
 	err = ioutil.WriteFile(ap.filePathAndName(), accountJSON, 0644) // The "0644" parameter is filemode.
 	return err
-} 
+}
 
-func (ap *accountProperties) initialize()  error {
+func (ap *accountProperties) initialize() error {
 	if ap.exists() {
 		// The exists() method should have been called previously.
 		return errors.New(fmt.Sprintf("Account already exists at %s", ap.filePathAndName()))
@@ -110,7 +113,7 @@ func (ap *accountProperties) initialize()  error {
 
 func (ap *accountProperties) read() error {
 	if !ap.exists() {
-		// The initialize() method should have already been called previously. 
+		// The initialize() method should have already been called previously.
 		return errors.New("Fatal Error: Account file does not exist.")
 	}
 
@@ -125,7 +128,7 @@ func (ap *accountProperties) read() error {
 	}
 
 	if ap.Description != accountFileDescription {
-		return errors.New("Fatal Error: Account file not valid.")	
+		return errors.New("Fatal Error: Account file not valid.")
 	}
 
 	return nil
@@ -136,7 +139,7 @@ func (ap *accountProperties) defaultContainer() (containerProperties, error) {
 	err := ap.read()
 	if err != nil {
 		return ap.Containers[0], err
-	}	
+	}
 
 	if ap.Containers == nil {
 		var container containerProperties
@@ -149,23 +152,23 @@ func (ap *accountProperties) defaultContainer() (containerProperties, error) {
 func (ap *accountProperties) defaultAccountProperties(environment string) {
 	// BugBug: Remove default account and key and email!
 	var container containerProperties
-	container.Type    = "azure"
+	container.Type = "azure"
 	container.Account = "pithub"
-	container.Key     = "2q62fVoYfT6ZOudTALzXBSz6eKOXh4CRgpMfuMWpyRFlUh/QB+K3IpaAm/hAUjrbMoZN9t0Cbl4lYHMU3lV89A=="
-	container.Name    = "nvm4zqwmtesttest"
-	container.URL     = "https://pithub.blob.core.windows.net/nvm4zqwmtesttest/"
+	container.Key = "2q62fVoYfT6ZOudTALzXBSz6eKOXh4CRgpMfuMWpyRFlUh/QB+K3IpaAm/hAUjrbMoZN9t0Cbl4lYHMU3lV89A=="
+	container.Name = "nvm4zqwmtesttest"
+	container.URL = "https://pithub.blob.core.windows.net/nvm4zqwmtesttest/"
 	container.Default = "yes"
 
 	if environment == "production" {
 		fmt.Println("Warning: **PRODUCTION** environment enabled!")
-		container.Name  = "nvm4zqwm"
+		container.Name = "nvm4zqwm"
 	} else {
 		fmt.Println("**TEST** environment enabled.")
 	}
 
-	ap.Description   = accountFileDescription
-	ap.Email         = "epogue@epogue.com"
-	ap.Containers    = append(ap.Containers, container)
+	ap.Description = accountFileDescription
+	ap.Email = "epogue@epogue.com"
+	ap.Containers = append(ap.Containers, container)
 
 	err := ap.write()
 	if err != nil {
@@ -173,7 +176,14 @@ func (ap *accountProperties) defaultAccountProperties(environment string) {
 	}
 }
 
-func (ap *accountProperties) addBasicContainerInfo(NameLocal string, NameRemote string) error {
-	log.Println("func (ap *accountProperties) addBasicContainerInfo(NameLocal string, NameRemote string) {")
-	return nil
+func (ap *accountProperties) addBasicCollectionInfo(nameLocal string, nameRemote string) {
+	var basicCollection basicCollectionProperties
+	basicCollection.NameLocal = nameLocal
+	basicCollection.NameRemote = nameRemote
+
+	err := ap.read()
+	check(err)
+
+	ap.Collections = append(ap.Collections, basicCollection)
+	ap.write()
 }
