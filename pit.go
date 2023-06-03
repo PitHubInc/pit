@@ -33,7 +33,7 @@ func main() {
 	} else if (secondArg == "status") || (secondArg == "-status") || (secondArg == "-s") {
 		status()
 	} else if (secondArg == "init") || (secondArg == "-init") || (secondArg == "-i") {
-		initialize()
+		collectionInitialize()
 	} else if (secondArg == "add") || (secondArg == "-add") || (secondArg == "-a") {
 		if len(os.Args) < 3 {
 			log.Println("Error: '-add' must include a [[document-name]] argument")
@@ -42,7 +42,7 @@ func main() {
 			add(os.Args[2])
 		}
 	} else if (secondArg == "push") || (secondArg == "-push") || (secondArg == "-p") {
-		push()
+		collectionPush()
 	} else if (secondArg == "test") || (secondArg == "-test") || (secondArg == "-t") {
 		test()
 	} else if (secondArg == "setproduction") || (secondArg == "-setproduction") || (secondArg == "-sp") {
@@ -116,19 +116,9 @@ func status() {
 }
 
 func add(documentName string) {
-	fmt.Printf("Add \"%s\"\n", documentName)
+	fmt.Printf("Added \"%s\"\n", documentName)
 	err := collectionAdd(documentName)
 	check(err)
-}
-
-func initialize() {
-	fmt.Printf("Initialize:\n")
-	collectionInitialize()
-}
-
-func push() {
-	fmt.Printf("Push:\n")
-	collectionPush()
 }
 
 func test() {

@@ -7,7 +7,7 @@ package main
 // below as any changes will likely be a breaking change for existing versions. Note that the
 // variable names are utilized by Go in the creation of JSON files. 
 
-const pitFileName = "pit.json"
+const pitFileName = ".pit.json"
 const pitMD5tag = "pitmd5"
 const pitSeparator = "-"
 const userAppFolderName = ".pit"

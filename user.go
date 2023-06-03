@@ -197,7 +197,6 @@ func (ap *accountProperties) getRemoteName(nameLocalIn string) (string, error) {
 		if col.NameLocal == nameLocalIn {
 			return col.NameRemote, nil
 		}
-		fmt.Printf("%s\n", col)
 	}
 
 	return "", nil
